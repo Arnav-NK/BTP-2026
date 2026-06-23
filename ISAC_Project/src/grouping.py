@@ -19,11 +19,10 @@ def sbl_grouping(cascaded_channel,
 
     for _ in range(max_iter):
 
-        Gamma = np.diag(gamma)
-
-        mu = Gamma @ np.linalg.pinv(Gamma + np.eye(M))
-
-        gamma_new = np.real(np.diag(mu))
+        # Gamma and np.eye(M) are both diagonal matrices.
+        # Computing Gamma @ pinv(Gamma + I) is equivalent to:
+        # gamma_new[i] = gamma[i] / (gamma[i] + 1)
+        gamma_new = gamma / (gamma + 1.0)
 
         if np.linalg.norm(gamma_new-gamma) < 1e-5:
             break
